@@ -108,7 +108,7 @@ ui <- fluidPage(theme =shinytheme("paper"),
     tabPanel("About", fluid = TRUE,
 
              mainPanel( width="100%",
-                        includeHTML('./README/README.html')
+                        uiOutput("About")
              )
     )#TabPanel
   )#TabSetPanel
@@ -323,6 +323,11 @@ server <- function(input, output, session) {
                yaxis=list(title=input$YAttributes))
     }
   })
+  
+  output$About = renderUI ({
+    includeMarkdown('./README/README.md')
+  })
+  
 }
 
 # Create Shiny app ----
