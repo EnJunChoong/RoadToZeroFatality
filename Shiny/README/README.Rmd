@@ -1,6 +1,6 @@
 ---
 title: "README"
-output:rmarkdown::github_document
+output: rmarkdown::github_document
 #  html_document: default
 ---
 
