@@ -232,7 +232,7 @@ myVehicles[is.na(myVehicles)]= -1</code></pre>
 cleanVehicles = myVehicles%&gt;%%&gt;%filter(myAccidents$AccidentSeverity ==1)</code></pre>
 <p>Next we join both datasets on Vehicles rows according to accident index</p>
 <pre class="r"><code>cleanDataset = left_join(myVehicles,myAccidents)</code></pre>
-<p>We dropped attributes that we think were irrelevant to visualization, and plug that into the shiny app. The shiny source code can be found on github.</p>
+<p>We dropped attributes that we think were irrelevant to visualization, and plug that into the shiny app. The shiny source code can be found on github.<br> <a href="https://github.com/EnJunChoong/RoadToZeroFatality" class="uri">https://github.com/EnJunChoong/RoadToZeroFatality</a></p>
 </div>
 <div id="r-packages-used" class="section level3">
 <h3>R packages used</h3>

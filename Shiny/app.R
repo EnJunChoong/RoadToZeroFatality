@@ -108,7 +108,7 @@ ui <- fluidPage(theme =shinytheme("paper"),
     tabPanel("About", fluid = TRUE,
 
              mainPanel( width="100%",
-                        includeHTML('C:/Users/echoong/Desktop/GitHub Repo/RoadToZeroFatality/Shiny/README/README.html')
+                        includeHTML('./README/README.html')
              )
     )#TabPanel
   )#TabSetPanel

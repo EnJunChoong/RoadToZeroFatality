@@ -1,7 +1,7 @@
 ---
 title: "README"
 output: #rmarkdown::github_document
-  html_document: 
+  html_document: default
   keep_md: yes
 ---
 
@@ -72,8 +72,8 @@ Next we join both datasets on Vehicles rows according to accident index
 cleanDataset = left_join(myVehicles,myAccidents)
 ```
 
-We dropped attributes that we think were irrelevant to visualization, and plug that into the shiny app. The shiny source code can be found on github.
-
+We dropped attributes that we think were irrelevant to visualization, and plug that into the shiny app. The shiny source code can be found on github.<br>
+https://github.com/EnJunChoong/RoadToZeroFatality
 
 
 ### R packages used
