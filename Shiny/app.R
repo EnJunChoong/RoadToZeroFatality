@@ -324,6 +324,10 @@ server <- function(input, output, session) {
     }
   })
   
+  
+  
+##################ABOUT SECTION##################
+##################ABOUT SECTION##################
   output$About = renderUI ({
     includeMarkdown('./README/README.md')
   })
