@@ -17,22 +17,22 @@ This app was developed as a assignment for University of Malaya's Principles of 
 
 ### Features on Map Visualization
 Under Map Visualization tab, We can filter the data set to show only relevant years or months on the map. The visualization on the map are clustered. When not clustered, a single red circle marker represent a fatal accident. There is a popup information table when clicked on the red circle marker. <br>
-<img src='Image1.jpg'>
+<img src='Image/Image1.jpg'>
 
 
 If we wish to zoom into the map based on district level, there is a separate select input to do so:<br>
-<img src='Image2.jpg'>
+<img src='Image/Image2.jpg'>
 
 And if we wish to view specific details on a given Accident index, we can input the accident index ID on the given textbox. The result will be a zoomed in view to the accident location, and a table at the bottom of the map. <br>
-<img src='Image3.jpg'>
+<img src='Image/Image3.jpg'>
 
 
 ### Features on Chart Visualization
 On the next tab is the tab for Chart Visualization. On this tab, we designed it in a way for users to select chart types according to their preference. Three Chart options namely: PieChart, Histogram and 2DHistogram are allowed. Users can select the Attributes desired to be plotted on the chart. <br>
-<img src='Image4.jpg'>
+<img src='Image/Image4.jpg'>
 
 For 2D Histogram that needs a second attribute, an additional attribute selection is triggered when user select 2D Histogram as the desired Chart Type. A Color Scale option is also available for user to select the desired color on the 2DHistogram.<br>
-<img src='Image5.jpg'>
+<img src='Image/Image5.jpg'>
 
 
 ### Datasets
