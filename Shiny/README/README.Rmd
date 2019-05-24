@@ -3,6 +3,8 @@ title: "README"
 output:
   pdf_document: default
   html_document: default
+  md_document:
+    variant: markdown_github
 date: "May 24, 2019"
 ---
 
