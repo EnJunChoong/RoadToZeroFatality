@@ -5,8 +5,8 @@ account: enjunz
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 938966
-bundleId: 2106896
+bundleId: 2106921
 url: https://enjunz.shinyapps.io/uk_fatal_accidents_2005-2015_visualization/
-when: 1558718044.3012
+when: 1558718843.39045
 asMultiple: FALSE
 asStatic: FALSE
