@@ -15,7 +15,7 @@ load('global.RData')
 
 
 # Define UI ----
-ui <- fluidPage(theme =shinytheme("paper"),
+ui <- fixedPage(theme =shinytheme("paper"),
                 titlePanel(HTML('<center><span style="font-family: georgia, palatino;">The Road to Zero Fatality<br>A  Visualization Tool on UK Fatal Road Accidents</center></span>')),
   tabsetPanel(
     
