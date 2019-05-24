@@ -1,11 +1,9 @@
 ---
 title: "README"
 output:
-  html_document: default
-  md_document:
-    variant: markdown_github
+  html_document: 
+  keep_md: yes
 date: "May 24, 2019"
-keep-md: true 
 ---
 
 ```{r setup, include=FALSE}
