@@ -1,0 +1,12 @@
+name: uk_fatal_accidents_2005-2015_visualization
+title:
+username:
+account: enjunz
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 938966
+bundleId: 2101939
+url: https://enjunz.shinyapps.io/uk_fatal_accidents_2005-2015_visualization/
+when: 1558541287.74492
+asMultiple: FALSE
+asStatic: FALSE

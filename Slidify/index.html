@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Road to Zero Fatality</title>
+  <meta charset="utf-8">
+  <meta name="description" content="Road to Zero Fatality">
+  <meta name="author" content="">
+  <meta name="generator" content="slidify" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/default.css" media="all" >
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/phone.css" 
+    media="only screen and (max-device-width: 480px)" >
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/slidify.css" >
+  <link rel="stylesheet" href="libraries/highlighters/highlight.js/css/tomorrow.css" />
+  <base target="_blank"> <!-- This amazingness opens all links in a new tab. -->  <link rel=stylesheet href="./assets/css/ribbons.css"></link>
+
+  
+  <!-- Grab CDN jQuery, fall back to local if offline -->
+  <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.7.min.js"></script>
+  <script>window.jQuery || document.write('<script src="libraries/widgets/quiz/js/jquery.js"><\/script>')</script> 
+  <script data-main="libraries/frameworks/io2012/js/slides" 
+    src="libraries/frameworks/io2012/js/require-1.0.8.min.js">
+  </script>
+  
+  
+
+</head>
+<body style="opacity: 0">
+  <slides class="layout-widescreen">
+    
+    <!-- LOGO SLIDE -->
+        <slide class="title-slide segue nobackground">
+  <hgroup class="auto-fadein">
+    <h1>Road to Zero Fatality</h1>  <h2>A Visualization Tool on UK Fatal Accidents</h2>
+ <hr>   <p>Choong En Jun   WQD180113<br/>Chan Swee Tat   WQD180092<br/>Yew Kwang Yong  WQD180091<br/>Kak D-Wing      WQD180125<br/><br/><br/><br/><br/><br/></p><h3>Masters in Data Science, University of Malaya</h3>
+  </hgroup>
+    <a href="https://github.com/EnJunChoong/RoadToZeroFatality/zipball/gh-pages" class="example">
+     Download
+    </a>
+  <article></article>  
+</slide>
+    
+
+    <!-- SLIDES -->
+    <slide class="class" id="intro" style="background:#c6c5e2;">
+  <hgroup>
+    <h2>Introduction</h2>
+  </hgroup>
+  <article data-timings="">
+<hr noshade size=4 color='red'>      <style>
+strong {
+  font-weight: bold;
+}
+</style>
+
+<p><html><p><img style="padding: 0 15px; float: left;" src="Intro.jpg"><span style="font-size: 12pt;">In 2015, the UN rolled out the <strong>2030 Agenda for Sustainable Development</strong>.In Sustainable Development Goals 3.6, the UN is committed to halve the road accident fatalities and injuries world wide.&nbsp;</span></p></p>
+
+<blockquote>
+<p style="text-align: center;"><strong><span style="font-family: verdana, geneva; font-size: 16pt;">"SDG 3.6: By 2020, halve the number of global deaths and injuries from road traffic accidents."</span></strong></p>
+</blockquote>
+
+<p><p><span style="font-size: 12pt;"> This Shiny application is created in 2019, within one year before the proposed deadline. The 2005-2015 UK road Accident dataset is obtained from: <a href="https://www.kaggle.com/silicon99/dft-accident-data">https://www.kaggle.com/silicon99/dft-accident-data</a>. This app offer the UK public a visualization tool on the fatal road accidents in UK and the infographics associated with them. &nbsp;</span></p></html>
+<p><span style="font-size: 12pt;"> In the following slides, we will discuss on our <strong>Data Science Process</strong>, <strong>App Description</strong> and our <strong>Experience</strong>. &nbsp;</span></p></html></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="process" style="background:#c6c5e2;">
+  <hgroup>
+    <h2>Data Science Process</h2>
+  </hgroup>
+  <article data-timings="">
+<hr noshade size=4 color='red'>      <p><strong>Asking an interesting question:</strong><br>
+In conjunction with UN Sustainable Development Goals 3.6, we want to know what is the historical trend and infographic associated with Fatal Road Accidents in UK. </p>
+
+<p><strong>Get the Data:</strong><br>
+The 2005-2015 UK road Accident dataset contained all road accidents reported. <br>
+<a href="https://www.kaggle.com/silicon99/dft-accident-data">https://www.kaggle.com/silicon99/dft-accident-data</a>.</p>
+
+<p><strong>Explore the Data:</strong><br>
+head(), summary(), str(), and boxplot() are used to understand dataset, identify missing values, and gauge fittings of the data.</p>
+
+<p><strong>Model the Data:</strong><br>
+Data is cleaned, integrated and transformed in order to work with shiny and visualization tools.</p>
+
+<p><strong>Communicate and Visualize the result:</strong><br>
+Data visualization is available on github and shiny io, slides on rpubs. </p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="app" style="background:#c6c5e2;">
+  <hgroup>
+    <h2>App Description</h2>
+  </hgroup>
+  <article data-timings="">
+<hr noshade size=4 color='red'>      <p>Our Shiny app consists of two tabs. One for map visualization, and the other for chart visualization. Our final dataset is filtered to only show accidents involving fatalities. </p>
+
+<div style='float:left;width:48%;' class='centered'>
+  <p><img src="Map.gif",height="100%", width="100%"></p>
+
+</div>
+<div style='float:right;width:48%;'>
+  <p><img src="Chart.gif",height="100%", width="100%"></p>
+
+</div>
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:#c6c5e2;">
+  <hgroup>
+    <h2>Experience</h2>
+  </hgroup>
+  <article data-timings="">
+<hr noshade size=4 color='red'>      <p>As with all new learning experience, we had our struggles with getting things to work. We learned the hard way that the code that worked on our local machine does not necessarily work on the cloud server. There are always little bit and pieces of details that can go wrong. </p>
+
+<p>Visualization is an important tool for all data scientist. We are glad that we have a new tool handy in our pocket now. </p>
+
+<p>Link to our app is as follow:<br>
+  Shiny App: <a href="https://enjunz.shinyapps.io/uk_fatal_accidents_2005-2015_visualization/">https://enjunz.shinyapps.io/uk_fatal_accidents_2005-2015_visualization/</a><br></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+    <slide class="backdrop"></slide>
+  </slides>
+  <div class="pagination pagination-small" id='io2012-ptoc' style="display:none;">
+    <ul>
+      <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=1 title='Introduction'>
+         1
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=2 title='Data Science Process'>
+         2
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=3 title='App Description'>
+         3
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=4 title='Experience'>
+         4
+      </a>
+    </li>
+  </ul>
+  </div>  <!--[if IE]>
+    <script 
+      src="http://ajax.googleapis.com/ajax/libs/chrome-frame/1/CFInstall.min.js">  
+    </script>
+    <script>CFInstall.check({mode: 'overlay'});</script>
+  <![endif]-->
+</body>
+  <!-- Load Javascripts for Widgets -->
+  
+  <!-- LOAD HIGHLIGHTER JS FILES -->
+  <script src="libraries/highlighters/highlight.js/highlight.pack.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+  <!-- DONE LOADING HIGHLIGHTER JS FILES -->
+   
+  </html>
