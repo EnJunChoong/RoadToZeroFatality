@@ -8,6 +8,8 @@ library("lubridate")
 library("shinythemes")
 library("kableExtra")
 library("plotly")
+library("shinycssloaders")
+library("mapview")
 
 getwd()
 list.files()
@@ -18,7 +20,7 @@ load('global.RData')
 ui <- fixedPage(theme =shinytheme("paper"),
                 titlePanel(HTML('<center><span style="font-family: georgia, palatino;">The Road to Zero Fatality<br>A  Visualization Tool on UK Fatal Road Accidents</center></span>')),
   tabsetPanel(
-    
+    id = "tab_being_displayed", # will set input$tab_being_displayed
     tabPanel("About", fluid = TRUE,
       
                mainPanel( width="100%",
@@ -41,20 +43,20 @@ ui <- fixedPage(theme =shinytheme("paper"),
                  
                  selectInput("Year",
                              label="Year of interest",
-                             choices = c('','All',(2005:2015)),
-                             selected = ''),
+                             choices = c('All',(2005:2015)),
+                             selected = '2005'),
                  selectInput("Month",
                              label="Month of interest",
-                             choices = c('','All',(1:12)),
-                             selected = ''),
+                             choices = c('All',(1:12)),
+                             selected = '1'),
          
                  selectInput("District",
                              label="Zoom in to District",
-                             choices = c('','All',levels(myDistrict$label)),
-                             selected = ''),
+                             choices = c('All',levels(myDistrict$label)),
+                             selected = 'All'),
                  
                  
-                 textInput("AccidentIndex", label = h6("Enter Accident Index to Retrieve Data"), value = "enter text...")
+                 textInput("AccidentIndex", label = h6("Enter Accident Index to Retrieve Data"), placeholder = 'Eg: 200532C014005')
 
                ),
         
@@ -62,8 +64,9 @@ ui <- fixedPage(theme =shinytheme("paper"),
                 
                 # Main panel for displaying outputs ----
                 mainPanel(
+                  HTML('<p>Please wait for Map to load. Refresh the page if map is not rendering properly.</p>'),
                   # Output: Leaflet map ----
-                  leafletOutput(outputId = "LeafletMap", height = 625),
+                  leafletOutput(outputId = "LeafletMap", height = 625)%>%withSpinner(color="#0dc5c1",type=6),
                   
                   textOutput(outputId="Index"),
                   tableOutput(outputId="table")
@@ -88,7 +91,7 @@ ui <- fixedPage(theme =shinytheme("paper"),
                  selectInput("Attributes",
                              label="Attributes",
                              choices = c(AccidentAttributes,VehicleAttributes),
-                             selected = "Time_of_Day"),
+                             selected = "Hit_Object_in_Carriageway"),
                  
                  uiOutput("ChartTypeInputs"),
                  uiOutput("ColorInputs")
@@ -99,7 +102,7 @@ ui <- fixedPage(theme =shinytheme("paper"),
                # Main panel for displaying outputs ----
                mainPanel(
                  # Output: Chart ----
-                 plotlyOutput(outputId="chartPlot", height= 625)
+                 plotlyOutput(outputId="chartPlot", height= 625)%>%withSpinner(color="#0dc5c1",type=6)
                  
                )
              )#SidebarLayout
@@ -108,16 +111,19 @@ ui <- fixedPage(theme =shinytheme("paper"),
     tabPanel("About", fluid = TRUE,
 
              mainPanel( width="100%",
-                        uiOutput("About")
+                        uiOutput("About")%>%withSpinner(color="#0dc5c1",type=6)
              )
     )#TabPanel
   )#TabSetPanel
 )#ui
+
+
 # Define server logic required to draw a histogram ----
 server <- function(input, output, session) {
 
 ##################LEAFLET SECTION##################
 ##################LEAFLET SECTION##################
+  
 #Initialiaze Leaflet
   output$LeafletMap = renderLeaflet({
     leaflet(options = leafletOptions(preferCanvas = TRUE))%>%
@@ -125,7 +131,7 @@ server <- function(input, output, session) {
                                              updateWhenIdle = TRUE))%>%
       setView(lng=-5,lat=54.5, zoom =6)%>%
       addPolygons(data = mapOutlineUK, 
-                  #popup = popupTable(mapOutlineUK), 
+                  popup = popupTable(mapOutlineUK), 
                   color = "blue", 
                   weight = 1, 
                   smoothFactor = 0.5,
@@ -133,6 +139,8 @@ server <- function(input, output, session) {
                   fillOpacity = 0.1,
                   group = "Outline")%>%
       addMiniMap(toggleDisplay = TRUE,position = "bottomleft")
+    
+    
   })
 ##################
 #To filter data according to time frame input
@@ -178,20 +186,22 @@ server <- function(input, output, session) {
       leafletProxy(("LeafletMap"))%>% setView(lng=-5,lat=54.5, zoom =6)
     }
   })
-
+leaflet
 #To filter time frame  
   observe({
+    req(input$tab_being_displayed == "Interactive Map")
     
     progress <- shiny::Progress$new()
     # Make sure it closes when we exit this reactive, even if there's an error
     on.exit(progress$close())
-    
+
     leafletProxy(("LeafletMap"))%>%
       addLayersControl(overlayGroups = c("Severity: Fatal","Outline"))%>%
       clearGroup(c("Severity: Fatal"))
 
     
-    progress$set(message = "Please wait while computing",value=0)
+    progress$set(message = "Please wait while computing",value=1)
+    
     leafletProxy("LeafletMap", data= myFatal.Interval())%>%
       addCircleMarkers(lat=~Latitude,
                        lng=~Longitude,
@@ -215,12 +225,7 @@ server <- function(input, output, session) {
 
   observe({
     
-    if (input$AccidentIndex == "enter text..."){
-      
-      return(NULL)
-      
-    }
-    else if (input$AccidentIndex %in% myFatal.Shiny$Accident_Index){
+    if (input$AccidentIndex %in% myFatal.Shiny$Accident_Index){
       output$Index = renderText({
         paste("Accident Index:",input$AccidentIndex)
       })
@@ -233,12 +238,20 @@ server <- function(input, output, session) {
       })
       
     } 
-    else {
+    else if (!(input$AccidentIndex%in% myFatal.Shiny$Accident_Index)&nchar(input$AccidentIndex)>0) {
       output$Index = renderText({
         paste("Accident Index Input Not Found. Please Try Again")
       })
+      output$table = function ()({
+      })
     }
-    
+    else {
+      output$Index = renderText({
+      })
+      output$table = function ()({
+      })
+    }
+
   })
 
 ##################INTERACTIVE CHART SECTION##################
@@ -299,6 +312,9 @@ server <- function(input, output, session) {
     }
   })
   
+  
+  
+  
 
     
   output$chartPlot = renderPlotly({
@@ -306,6 +322,7 @@ server <- function(input, output, session) {
     if (input$ChartType == 'Pie Chart'){
       plot_ly(data=myPieData(), labels=sort(myPieData()[,1]), values=myPieData()[,2] ,type='pie')%>%
         layout(title = paste('UK Fatal Road Accidents Frequency by ', input$Attributes))
+        
       
     }
     else if(input$ChartType == 'Histogram'){

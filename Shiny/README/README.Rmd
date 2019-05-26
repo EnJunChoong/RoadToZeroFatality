@@ -1,8 +1,8 @@
 ---
 title: "README"
-output: #rmarkdown::github_document
-  html_document: default
-  keep_md: yes
+output: rmarkdown::github_document
+#  html_document: default
+#  keep_md: yes
 ---
 
 ```{r setup, include=FALSE}
