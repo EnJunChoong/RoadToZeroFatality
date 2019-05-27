@@ -211,8 +211,8 @@ $(document).ready(function () {
 <div id="datasets" class="section level3">
 <h3>Datasets</h3>
 <ul>
-<li><p>UK 2005-2015 road accidents datasets datasets <a href="https://www.kaggle.com/silicon99/dft-accident-data" class="uri">https://www.kaggle.com/silicon99/dft-accident-data</a><br> &lt;Accidents0515.csv&gt;,&lt;Vehicles0515.csv&gt;</p></li>
-<li><p>Road-Accidet-Safety-Data-Guide <a href="http://data.dft.gov.uk/road-accidents-safety-data/Road-Accident-Safety-Data-Guide.xls" class="uri">http://data.dft.gov.uk/road-accidents-safety-data/Road-Accident-Safety-Data-Guide.xls</a><br> &lt;Road-Accident-Safety-Data-Guide.xls&gt;</p></li>
+<li><p>UK 2005-2015 road accidents datasets datasets <a href="https://www.kaggle.com/silicon99/dft-accident-data" class="uri">https://www.kaggle.com/silicon99/dft-accident-data</a><br> &lt;Accidents0515.csv&gt;,&lt;Vehicles0515.csv&gt;,&lt;Casualties0515.csv&gt;</p></li>
+<li><p>Road-Accident-Safety-Data-Guide <a href="http://data.dft.gov.uk/road-accidents-safety-data/Road-Accident-Safety-Data-Guide.xls" class="uri">http://data.dft.gov.uk/road-accidents-safety-data/Road-Accident-Safety-Data-Guide.xls</a><br> &lt;Road-Accident-Safety-Data-Guide.xls&gt;</p></li>
 <li><p>UK Map Polygons geojson file <a href="https://blog.exploratory.io/making-maps-for-uk-countries-and-local-authorities-areas-in-r-b7d222939597" class="uri">https://blog.exploratory.io/making-maps-for-uk-countries-and-local-authorities-areas-in-r-b7d222939597</a><br> &lt;uk_la.geojson&gt;</p></li>
 </ul>
 </div>
@@ -224,14 +224,18 @@ $(document).ready(function () {
 <pre class="r"><code>#Rows with All NAs have less than 8 characters in Accident_Index 
 myAccidents=myAccidents[!(nchar(as.character(myAccidents$Accident_Index))&lt;8),]
 myVehicles=myVehicles[!(nchar(as.character(myVehicles$Accident_Index))&lt;8),]
+myAccidents=myAccidents[!(nchar(as.character(myVehicles$Accident_Index))&lt;8),]
 
 myAccidents[is.na(myAccidents)]= -1 
-myVehicles[is.na(myVehicles)]= -1</code></pre>
+myVehicles[is.na(myVehicles)]= -1
+myVehicles[is.na(myAccidents)]= -1</code></pre>
 <p>Since we are only interested with accidents that have fatalities, we filter the data based on Accident Severity</p>
-<pre class="r"><code>cleanAccidents = myAccidents%&gt;%filter(myAccidents$AccidentSeverity ==1)
-cleanVehicles = myVehicles%&gt;%%&gt;%filter(myAccidents$AccidentSeverity ==1)</code></pre>
+<pre class="r"><code>myAccidents = myAccidents%&gt;%filter(myAccidents$AccidentSeverity ==1)
+myVehicles = myVehicles%&gt;%%&gt;%filter(myAccidents$AccidentSeverity ==1)
+myCasualties = myVehicles%&gt;%%&gt;%filter(myAccidents$AccidentSeverity ==1)</code></pre>
 <p>Next we join both datasets on Vehicles rows according to accident index</p>
-<pre class="r"><code>cleanDataset = left_join(myVehicles,myAccidents)</code></pre>
+<pre class="r"><code>cleanDataset = left_join(myVehicles,myAccidents)
+cleanDataset = left_join(myVehicles,myCasualties)</code></pre>
 <p>We dropped attributes that we think were irrelevant to visualization, and plug that into the shiny app. The shiny source code can be found on github.<br> <a href="https://github.com/EnJunChoong/RoadToZeroFatality" class="uri">https://github.com/EnJunChoong/RoadToZeroFatality</a></p>
 </div>
 <div id="r-packages-used" class="section level3">

@@ -21,9 +21,9 @@ For 2D Histogram that needs a second attribute, an additional attribute selectio
 
 ### Datasets
 
--   UK 2005-2015 road accidents datasets datasets <https://www.kaggle.com/silicon99/dft-accident-data><br> &lt;Accidents0515.csv&gt;,&lt;Vehicles0515.csv&gt;
+-   UK 2005-2015 road accidents datasets datasets <https://www.kaggle.com/silicon99/dft-accident-data><br> &lt;Accidents0515.csv&gt;,&lt;Vehicles0515.csv&gt;,&lt;Casualties0515.csv&gt;
 
--   Road-Accidet-Safety-Data-Guide <http://data.dft.gov.uk/road-accidents-safety-data/Road-Accident-Safety-Data-Guide.xls><br> &lt;Road-Accident-Safety-Data-Guide.xls&gt;
+-   Road-Accident-Safety-Data-Guide <http://data.dft.gov.uk/road-accidents-safety-data/Road-Accident-Safety-Data-Guide.xls><br> &lt;Road-Accident-Safety-Data-Guide.xls&gt;
 
 -   UK Map Polygons geojson file <https://blog.exploratory.io/making-maps-for-uk-countries-and-local-authorities-areas-in-r-b7d222939597><br> &lt;uk\_la.geojson&gt;
 
@@ -41,22 +41,26 @@ After identifying NA and missing variables, we remove rows with all NA cells, an
 #Rows with All NAs have less than 8 characters in Accident_Index 
 myAccidents=myAccidents[!(nchar(as.character(myAccidents$Accident_Index))<8),]
 myVehicles=myVehicles[!(nchar(as.character(myVehicles$Accident_Index))<8),]
+myAccidents=myAccidents[!(nchar(as.character(myVehicles$Accident_Index))<8),]
 
 myAccidents[is.na(myAccidents)]= -1 
 myVehicles[is.na(myVehicles)]= -1
+myVehicles[is.na(myAccidents)]= -1
 ```
 
 Since we are only interested with accidents that have fatalities, we filter the data based on Accident Severity
 
 ``` r
-cleanAccidents = myAccidents%>%filter(myAccidents$AccidentSeverity ==1)
-cleanVehicles = myVehicles%>%%>%filter(myAccidents$AccidentSeverity ==1)
+myAccidents = myAccidents%>%filter(myAccidents$AccidentSeverity ==1)
+myVehicles = myVehicles%>%%>%filter(myAccidents$AccidentSeverity ==1)
+myCasualties = myVehicles%>%%>%filter(myAccidents$AccidentSeverity ==1)
 ```
 
 Next we join both datasets on Vehicles rows according to accident index
 
 ``` r
 cleanDataset = left_join(myVehicles,myAccidents)
+cleanDataset = left_join(myVehicles,myCasualties)
 ```
 
 We dropped attributes that we think were irrelevant to visualization, and plug that into the shiny app. The shiny source code can be found on github.<br> <https://github.com/EnJunChoong/RoadToZeroFatality>
