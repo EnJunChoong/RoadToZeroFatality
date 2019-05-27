@@ -12,8 +12,6 @@ library("shinycssloaders")
 library("mapview")
 
 
-
-
 getwd()
 list.files()
 load('global.RData')
@@ -252,7 +250,7 @@ leaflet
       
       
       output$table2 = function ()({        
-        myVehicles.Shiny[myVehicles.Shiny$Accident_Index==input$AccidentIndex,2:12]%>%
+        myVehicles.Shiny[myVehicles.Shiny$Accident_Index==input$AccidentIndex,2:13]%>%
           t()%>%
           kable(col.names = NULL) %>%
           kable_styling()%>%
