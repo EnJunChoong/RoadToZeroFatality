@@ -11,6 +11,9 @@ library("plotly")
 library("shinycssloaders")
 library("mapview")
 
+
+
+
 getwd()
 list.files()
 load('global.RData')
@@ -21,17 +24,16 @@ ui <- fixedPage(theme =shinytheme("paper"),
                 titlePanel(HTML('<center><span style="font-family: georgia, palatino;">The Road to Zero Fatality<br>A  Visualization Tool on UK Fatal Road Accidents</center></span>')),
   tabsetPanel(
     id = "tab_being_displayed", # will set input$tab_being_displayed
-    tabPanel("About", fluid = TRUE,
+    tabPanel("Introduction", fluid = TRUE,
       
                mainPanel( width="100%",
                  
-                 div(img(src='Intro.jpg'), style="float:left;margin-right:20px;"),
+                 div(img(src='Intro.jpg', width = "100%"), style="float:left;margin-right:20px;width:30%"),
                  includeHTML("introduction.html")
                )
     ),
     
-    
-    
+
     tabPanel("Interactive Map",fluid=TRUE,
              
              # Sidebar layout with input and output definitions ----
@@ -40,7 +42,7 @@ ui <- fixedPage(theme =shinytheme("paper"),
                # Sidebar panel for inputs ----
                sidebarPanel(
                  h6("Select range and attributes to filter the data"),
-                 
+
                  selectInput("Year",
                              label="Year of interest",
                              choices = c('All',(2005:2015)),
@@ -66,10 +68,14 @@ ui <- fixedPage(theme =shinytheme("paper"),
                 mainPanel(
                   HTML('<p>Please wait for Map to load. Refresh the page if map is not rendering properly.</p>'),
                   # Output: Leaflet map ----
-                  leafletOutput(outputId = "LeafletMap", height = 625)%>%withSpinner(color="#0dc5c1",type=6),
+                  leafletOutput(outputId = "LeafletMap", height = "625")%>%withSpinner(color="#0dc5c1",type=6),
+                  h6(textOutput(outputId="Index")),                 
+                  tableOutput(outputId="table"),
+                  h6(textOutput(outputId="Vehicle")),
+                  tableOutput(outputId="table2"),
+                  h6(textOutput(outputId="Casualties")),
+                  tableOutput(outputId="table3")
                   
-                  textOutput(outputId="Index"),
-                  tableOutput(outputId="table")
 
                 )
               )#SidebarLayout           
@@ -91,7 +97,7 @@ ui <- fixedPage(theme =shinytheme("paper"),
                  selectInput("Attributes",
                              label="Attributes",
                              choices = c(AccidentAttributes,VehicleAttributes),
-                             selected = "Hit_Object_in_Carriageway"),
+                             selected = "Weather_Conditions"),
                  
                  uiOutput("ChartTypeInputs"),
                  uiOutput("ColorInputs")
@@ -144,6 +150,8 @@ server <- function(input, output, session) {
   })
 ##################
 #To filter data according to time frame input
+
+  
   myFatal.Interval = reactive({
     if (input$Year != 'All' & input$Month != 'All') {
       myFatal.Shiny %>%filter(year(Date) == input$Year & month(Date)==input$Month)
@@ -232,23 +240,67 @@ leaflet
       
       output$table = function ()({
         myFatal.Shiny[myFatal.Shiny$Accident_Index==input$AccidentIndex,2:15]%>%
+          t()%>%
+          kable(col.names = NULL) %>%
+          kable_styling()%>%
+          scroll_box(width="100%")
+      })
+      
+      output$Vehicle = renderText({
+        paste("Details by vehicles involved")
+      })
+      
+      
+      output$table2 = function ()({        
+        myVehicles.Shiny[myVehicles.Shiny$Accident_Index==input$AccidentIndex,2:12]%>%
+          t()%>%
+          kable(col.names = NULL) %>%
+          kable_styling()%>%
+          scroll_box(width="100%")
+        
+      })
+      
+      output$Casualties = renderText({
+        paste("Details by casualties involved")
+      })
+      
+      
+      output$table3 = function ()({        
+        myCasualties.Shiny[myCasualties.Shiny$Accident_Index==input$AccidentIndex,2:7]%>%
           kable() %>%
           kable_styling()%>%
           scroll_box(width="100%")
+        
       })
       
     } 
     else if (!(input$AccidentIndex%in% myFatal.Shiny$Accident_Index)&nchar(input$AccidentIndex)>0) {
       output$Index = renderText({
-        paste("Accident Index Input Not Found. Please Try Again")
+        paste("Accident Index Input Not Found. Please Try Again...")
       })
       output$table = function ()({
+      })
+      output$Vehicle = renderText({
+      })
+      output$table2 = function ()({
+      })
+      output$Casualties = renderText({
+      })
+      output$table3 = function ()({
       })
     }
     else {
       output$Index = renderText({
       })
       output$table = function ()({
+      })
+      output$Vehicle = renderText({
+      })
+      output$table2 = function ()({
+      })
+      output$Casualties = renderText({
+      })
+      output$table3 = function ()({
       })
     }
 
